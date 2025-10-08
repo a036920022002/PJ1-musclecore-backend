@@ -4,9 +4,11 @@ const Product=require('../models/product')
 const getproduct=async (req, res) => {
   try {
     const products = await Product.find();
+    const baseUrl = process.env.BASE_URL;
+
     productObj=products.map(p => ({
       ...p.toObject(),
-    productImage: `http://localhost:3000/images/${p.productImage}`
+    productImage: `${baseUrl}/images/${p.productImage}`
     }));
     res.json(productObj);
   } catch (error) {
@@ -20,7 +22,7 @@ const  getproductId=async (req,res)=>{
     if (!product) 
       return res.status(404).json({ message: '產品不存在' });
     const productObj = product.toObject();
-    productObj.productImage = `http://localhost:3000/images/${productObj.productImage}`;    
+    productObj.productImage = `${baseUrl}/images/${productObj.productImage}`;    
     res.json(productObj);
   } catch (err) {
     res.status(500).json({ message: err.message });
